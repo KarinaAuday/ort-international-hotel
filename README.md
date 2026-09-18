@@ -73,10 +73,18 @@ MVC-Ejemplo/
         │   ├── HabitacionesController.cs
         │   └── ReservasController.cs
         ├── Views/
+        │   ├── Home/          (Index: la portada)
         │   ├── Hoteles/       (Index, Create, Edit, Details, Delete)
         │   ├── Pasajeros/     (Index, Create, Edit, Details, Delete)
         │   ├── Habitaciones/  (Index, Create, Edit, Details, Delete)
-        │   └── Reservas/      (Index, Create, Edit, Details, Delete)
+        │   ├── Reservas/      (Index, Create, Edit, Details, Delete)
+        │   └── Shared/        (_Layout: menú y estructura común; _ValidationScriptsPartial)
+        ├── wwwroot/           (archivos estáticos que sirve el navegador)
+        │   ├── css/site.css               (estilos propios, ver Paso 12)
+        │   ├── js/site.js                 (buscador de tablas, ver Paso 11)
+        │   ├── js/validaciones.js         (validación propia de fechas, ver Paso 4b)
+        │   ├── images/hero-hotel.svg      (imagen de la portada)
+        │   └── lib/                       (Bootstrap y jQuery, vienen con la plantilla)
         ├── appsettings.json    (connection string a LocalDB)
         └── Program.cs
 ```
@@ -526,6 +534,75 @@ filas.forEach(function (fila) {
 > `Index(string buscar)`) y este filtraría con LINQ (`_context.Pasajeros.Where(...)`) antes de
 > devolver la vista. Es un buen ejercicio para los alumnos.
 
+### Paso 12 (extra) — El diseño básico del frontend
+
+Todo el diseño se hizo con **HTML, CSS y un poco de JavaScript**, sin instalar librerías
+nuevas: la plantilla de ASP.NET Core ya trae **Bootstrap** (estilos y componentes) y
+**jQuery** en `wwwroot/lib`. Lo que se agregó encima:
+
+**1. El layout compartido: `Views/Shared/_Layout.cshtml`.** Es la "plantilla madre" de todas
+las páginas: tiene el menú de navegación, el pie de página y un `@RenderBody()`, que es el
+lugar donde cada vista inserta su contenido. Los links del menú usan tag helpers en vez de
+URLs escritas a mano:
+
+```html
+<a class="nav-link" asp-controller="Reservas" asp-action="Index">Reservas</a>
+```
+
+**2. La portada: `Views/Home/Index.cshtml`.** Se reemplazó la pantalla de bienvenida de la
+plantilla por:
+- Una **imagen** (`wwwroot/images/hero-hotel.svg`, un dibujo vectorial hecho a mano), mostrada
+  con `<img src="~/images/hero-hotel.svg">`. El `~` significa "la carpeta `wwwroot`".
+- Un texto encima de la imagen: el contenedor `.hero` tiene `position: relative` y el texto
+  (`.hero-overlay`) tiene `position: absolute` con un degradé oscuro
+  (`linear-gradient`) para que se lea.
+- Cuatro **tarjetas** de acceso a cada módulo, dentro de un contenedor con **CSS Grid**:
+  `grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))` acomoda las tarjetas solas
+  según el ancho de la pantalla (4 en una fila en pantalla grande, 1 en el celular).
+
+**3. Los estilos propios: `wwwroot/css/site.css`.** Se apoya en Bootstrap y agrega:
+- **Variables CSS** con los colores de marca (`--ort-blue`, `--ort-green`, etc.), definidas
+  una vez en `:root` y reutilizadas con `var(--ort-blue)`. Son los mismos colores del
+  diagrama entidad-relación.
+- Clases para las tarjetas (`.module-card`), el encabezado de cada listado (`.page-header`),
+  el contenedor blanco con sombra de las tablas (`.table-card`) y el efecto al pasar el mouse
+  (`:hover` con `transform: translateY(-4px)`).
+
+**4. Las tablas de los listados (`Index.cshtml`).** Usan clases de Bootstrap
+(`table table-striped table-hover`) y botones (`btn btn-sm btn-outline-primary`). Además se
+formatean los datos con Razor:
+
+```html
+<!-- Fecha y monto con formato -->
+@item.FechaDesde.ToString("dd/MM/yyyy")
+@item.MontoTotal.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+
+<!-- Estrellas del hotel: repite el carácter ★ tantas veces como estrellas tenga -->
+@(new string('★', item.CantidadEstrellas))
+```
+
+**5. Las etiquetas de color (badges).** Truco para que el color dependa del valor del `enum`:
+el nombre del estado se usa **como clase CSS**.
+
+```html
+<span class="badge-estado @item.Estado">@item.Estado</span>
+```
+
+Si `Estado` es `Confirmada`, el HTML queda `class="badge-estado Confirmada"`, y en `site.css`
+cada estado tiene su color:
+
+```css
+.badge-estado.Pendiente  { background: #fff3cd; color: #7a5b00; }
+.badge-estado.Confirmada { background: #d7f2df; color: #196630; }
+```
+
+**6. Los botones.** Los links que dejó el scaffolding (`Back to List`, `Edit`, etc.) se
+convirtieron en botones agregándoles clases de Bootstrap: `class="btn btn-primary"`,
+`btn-outline-secondary` (Volver), `btn-danger` (Eliminar). Un `<a>` con clase `btn` se ve y
+se comporta como un botón, pero sigue siendo un link.
+
+**7. El buscador de las tablas.** Es la parte de JavaScript, explicada en el Paso 11.
+
 ### Resumen del orden Model First
 
 ```
@@ -588,7 +665,9 @@ contenedor Docker).
 - Agregar una nueva entidad `Servicio` (desayuno, spa, cochera) en relación N a N con
   `Reserva` (tabla intermedia `ReservaServicio`).
 - Agregar un `Empleado` por Hotel, y mostrar en el Index de Reservas quién la gestionó.
-- Pasar las vistas a Bootstrap con tarjetas (`card`) en vez de tablas simples.
+- Darle el mismo diseño de las tablas a los formularios `Create`, `Edit`, `Details` y `Delete`
+  (hoy mantienen el aspecto que genera el scaffolding).
+- Agregar una foto distinta de cada hotel en el listado de Hoteles.
 
 Cualquier mejora que se les ocurra, es bienvenida — este proyecto está pensado como punto
 de partida, no como versión final.
