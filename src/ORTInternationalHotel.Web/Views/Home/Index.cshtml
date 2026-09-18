@@ -1,8 +1,62 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero">
+    <img src="~/images/hero-hotel.svg" alt="Sedes de ORT International Hotel" class="hero-img" />
+    <div class="hero-overlay">
+        <div class="hero-text">
+            <span class="hero-kicker">Cadena hotelera internacional</span>
+            <h1>ORT International Hotel</h1>
+            <p>Gesti&oacute;n de sedes, habitaciones, pasajeros y reservas de la cadena en un solo lugar.</p>
+            <a class="btn btn-hero" asp-controller="Reservas" asp-action="Index">Ver reservas</a>
+        </div>
+    </div>
+</section>
+
+<section class="module-grid">
+    <a class="module-card module-card--hotel" asp-controller="Hoteles" asp-action="Index">
+        <span class="module-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 21V7l7-4 7 4v14h-2v-8H8v8H3zm7-11a1 1 0 100-2 1 1 0 000 2zm0 4a1 1 0 100-2 1 1 0 000 2zM19 21v-8h2v8h-2z"/></svg>
+        </span>
+        <h2>Hoteles</h2>
+        <p>Sedes de la cadena: Buenos Aires, Bahamas, Madrid y las que sumes.</p>
+        <span class="module-link">Administrar hoteles &rarr;</span>
+    </a>
+
+    <a class="module-card module-card--pasajero" asp-controller="Pasajeros" asp-action="Index">
+        <span class="module-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4.42 0-8 2.24-8 5v3h16v-3c0-2.76-3.58-5-8-5z"/></svg>
+        </span>
+        <h2>Pasajeros</h2>
+        <p>Hu&eacute;spedes de la cadena y sus datos de contacto.</p>
+        <span class="module-link">Administrar pasajeros &rarr;</span>
+    </a>
+
+    <a class="module-card module-card--habitacion" asp-controller="Habitaciones" asp-action="Index">
+        <span class="module-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h2v8H3V7zm16 0h2v8h-2V7zM5 13v2H3v3h18v-3h-2v-2H5zm2-6h10a2 2 0 012 2v3H5V9a2 2 0 012-2z"/></svg>
+        </span>
+        <h2>Habitaciones</h2>
+        <p>Tipos, capacidad y precio por noche en cada sede.</p>
+        <span class="module-link">Administrar habitaciones &rarr;</span>
+    </a>
+
+    <a class="module-card module-card--reserva" asp-controller="Reservas" asp-action="Index">
+        <span class="module-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 2v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2h-2V2h-2v2H9V2H7zm12 8v10H5V10h14zM7 12h4v4H7v-4z"/></svg>
+        </span>
+        <h2>Reservas</h2>
+        <p>Une pasajero, hotel y habitaci&oacute;n en un rango de fechas.</p>
+        <span class="module-link">Administrar reservas &rarr;</span>
+    </a>
+</section>
+
+<section class="about-strip">
+    <p>
+        Este sitio es un ejemplo did&aacute;ctico de <strong>ASP.NET Core MVC + Entity Framework Core</strong>
+        (Model First: modelo &rarr; migraci&oacute;n &rarr; scaffolding). Ver el
+        <a href="https://github.com/KarinaAuday/ort-international-hotel#readme" target="_blank" rel="noopener">README del repositorio</a>
+        para la gu&iacute;a paso a paso.
+    </p>
+</section>

@@ -1,71 +1,52 @@
 @model IEnumerable<ORTInternationalHotel.Web.Models.Reserva>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Reservas";
 }
 
-<h1>Index</h1>
+<div class="page-header">
+    <h1>Reservas</h1>
+    <a class="btn btn-hero" asp-action="Create">+ Nueva reserva</a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDesde)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaHasta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MontoTotal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pasajero)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hotel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Habitacion)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="table-toolbar">
+    <input type="search" class="form-control" placeholder="Buscar por pasajero, hotel, habitacion o estado..." data-table-search="tablaReservas" />
+</div>
+
+<div class="table-card">
+    <table class="table table-striped table-hover align-middle" id="tablaReservas">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.FechaDesde)</th>
+                <th>@Html.DisplayNameFor(model => model.FechaHasta)</th>
+                <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                <th class="text-end">@Html.DisplayNameFor(model => model.MontoTotal)</th>
+                <th>@Html.DisplayNameFor(model => model.Pasajero)</th>
+                <th>@Html.DisplayNameFor(model => model.Hotel)</th>
+                <th>@Html.DisplayNameFor(model => model.Habitacion)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDesde)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaHasta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MontoTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pasajero.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hotel.Ciudad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Habitacion.Numero)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        <tr data-row>
+            <td>@item.FechaDesde.ToString("dd/MM/yyyy")</td>
+            <td>@item.FechaHasta.ToString("dd/MM/yyyy")</td>
+            <td><span class="badge-estado @item.Estado">@Html.DisplayFor(modelItem => item.Estado)</span></td>
+            <td class="text-end">@item.MontoTotal.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</td>
+            <td>@Html.DisplayFor(modelItem => item.Pasajero.Apellido)</td>
+            <td>@Html.DisplayFor(modelItem => item.Hotel.Ciudad)</td>
+            <td>@Html.DisplayFor(modelItem => item.Habitacion.Numero)</td>
+            <td class="actions-cell">
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Detalle</a>
+                <a class="action-delete" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
 }
-    </tbody>
-</table>
+            <tr class="empty-row is-hidden">
+                <td colspan="8">No se encontraron reservas con ese criterio.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

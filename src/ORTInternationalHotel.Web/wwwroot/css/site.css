@@ -19,4 +19,254 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #f5f7fa;
+}
+
+:root {
+  --ort-blue: #2b5fad;
+  --ort-blue-dark: #123863;
+  --ort-green: #2f8f4e;
+  --ort-orange: #c97a1e;
+  --ort-red: #b13030;
+}
+
+/* ===================== Hero (Home) ===================== */
+.hero {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  min-height: 280px;
+}
+
+.hero-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(10, 25, 48, 0.75) 0%, rgba(10, 25, 48, 0.35) 60%, rgba(10, 25, 48, 0) 100%);
+}
+
+.hero-text {
+  color: #fff;
+  padding: 0 2.5rem;
+  max-width: 620px;
+}
+
+.hero-kicker {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffd76a;
+  margin-bottom: 0.5rem;
+}
+
+.hero-text h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.hero-text p {
+  font-size: 1.05rem;
+  margin-bottom: 1.25rem;
+  color: #e9eef7;
+}
+
+.btn-hero {
+  background-color: #ffd76a;
+  color: #123863;
+  font-weight: 600;
+  border: none;
+  padding: 0.55rem 1.4rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  color: #123863;
+}
+
+/* ===================== Module cards (Home) ===================== */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.module-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: #212529;
+  box-shadow: 0 2px 6px rgba(16, 24, 40, 0.08);
+  border-top: 4px solid var(--ort-blue);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(16, 24, 40, 0.14);
+  color: #212529;
+}
+
+.module-card--hotel     { border-top-color: var(--ort-blue); }
+.module-card--pasajero  { border-top-color: var(--ort-green); }
+.module-card--habitacion{ border-top-color: var(--ort-orange); }
+.module-card--reserva   { border-top-color: var(--ort-red); }
+
+.module-icon {
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 0.85rem;
+  background: #eef2f8;
+}
+
+.module-icon svg { width: 24px; height: 24px; }
+
+.module-card--hotel .module-icon      { color: var(--ort-blue);   background: #eaf2ff; }
+.module-card--pasajero .module-icon   { color: var(--ort-green);  background: #eaf7ee; }
+.module-card--habitacion .module-icon { color: var(--ort-orange); background: #fff3e6; }
+.module-card--reserva .module-icon    { color: var(--ort-red);    background: #fdeaea; }
+
+.module-card h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.module-card p {
+  font-size: 0.9rem;
+  color: #5a6472;
+  flex-grow: 1;
+}
+
+.module-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ort-blue);
+  margin-top: 0.75rem;
+}
+
+.about-strip {
+  background: #eef2f8;
+  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* ===================== ABM pages ===================== */
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.page-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.table-toolbar input[type="search"] {
+  max-width: 280px;
+}
+
+.table-card {
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(16, 24, 40, 0.08);
+  padding: 0.25rem 1rem 1rem;
+  overflow-x: auto;
+}
+
+.table-card table {
+  margin-bottom: 0;
+}
+
+.table-card thead th {
+  border-bottom-width: 2px;
+  color: #495057;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.table-card tbody tr td {
+  vertical-align: middle;
+}
+
+.table-card tbody tr.is-hidden {
+  display: none;
+}
+
+.badge-estado {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-estado.Pendiente  { background: #fff3cd; color: #7a5b00; }
+.badge-estado.Confirmada { background: #d7f2df; color: #196630; }
+.badge-estado.Cancelada  { background: #fbdada; color: #8f1f1f; }
+.badge-estado.Finalizada { background: #dbe6f5; color: #1f3f73; }
+
+.badge-tipo {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #eef2f8;
+  color: var(--ort-blue-dark);
+}
+
+.actions-cell a {
+  margin-right: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.actions-cell a.action-delete {
+  color: var(--ort-red);
+}
+
+.empty-row td {
+  text-align: center;
+  color: #8a94a3;
+  padding: 1.5rem 0;
 }

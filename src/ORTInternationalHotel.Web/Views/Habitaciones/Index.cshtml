@@ -1,59 +1,48 @@
 @model IEnumerable<ORTInternationalHotel.Web.Models.Habitacion>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Habitaciones";
 }
 
-<h1>Index</h1>
+<div class="page-header">
+    <h1>Habitaciones</h1>
+    <a class="btn btn-hero" asp-action="Create">+ Nueva habitaci&oacute;n</a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Numero)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tipo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Capacidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrecioPorNoche)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hotel)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="table-toolbar">
+    <input type="search" class="form-control" placeholder="Buscar por numero, tipo u hotel..." data-table-search="tablaHabitaciones" />
+</div>
+
+<div class="table-card">
+    <table class="table table-striped table-hover align-middle" id="tablaHabitaciones">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Numero)</th>
+                <th>@Html.DisplayNameFor(model => model.Tipo)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.Capacidad)</th>
+                <th class="text-end">@Html.DisplayNameFor(model => model.PrecioPorNoche)</th>
+                <th>@Html.DisplayNameFor(model => model.Hotel)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Numero)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Capacidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecioPorNoche)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hotel.Ciudad)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        <tr data-row>
+            <td><strong>@Html.DisplayFor(modelItem => item.Numero)</strong></td>
+            <td><span class="badge-tipo">@Html.DisplayFor(modelItem => item.Tipo)</span></td>
+            <td class="text-center">@Html.DisplayFor(modelItem => item.Capacidad)</td>
+            <td class="text-end">@item.PrecioPorNoche.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</td>
+            <td>@Html.DisplayFor(modelItem => item.Hotel.Ciudad)</td>
+            <td class="actions-cell">
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Detalle</a>
+                <a class="action-delete" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
 }
-    </tbody>
-</table>
+            <tr class="empty-row is-hidden">
+                <td colspan="6">No se encontraron habitaciones con ese criterio.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

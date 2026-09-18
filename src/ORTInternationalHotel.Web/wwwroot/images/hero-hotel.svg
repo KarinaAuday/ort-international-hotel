@@ -1,0 +1,145 @@
+<svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1b3a63"/>
+      <stop offset="55%" stop-color="#2b5fad"/>
+      <stop offset="100%" stop-color="#5c95dd"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3f7fc4"/>
+      <stop offset="100%" stop-color="#1e4d85"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffe9a8"/>
+      <stop offset="100%" stop-color="#ffd76a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="360" fill="url(#sky)"/>
+  <circle cx="990" cy="90" r="110" fill="url(#sun)"/>
+  <circle cx="990" cy="90" r="36" fill="#ffe9a8"/>
+
+  <!-- sea -->
+  <rect x="0" y="270" width="1200" height="90" fill="url(#sea)"/>
+  <path d="M0 275 Q 50 268 100 275 T 200 275 T 300 275 T 400 275 T 500 275 T 600 275 T 700 275 T 800 275 T 900 275 T 1000 275 T 1100 275 T 1200 275 V360 H0 Z" fill="#4d8ecf" opacity="0.5"/>
+
+  <!-- palms -->
+  <g fill="#123a24">
+    <rect x="60" y="230" width="8" height="55"/>
+    <path d="M64 230 C 40 215 20 220 8 210 C 26 224 44 224 62 236 Z"/>
+    <path d="M64 230 C 88 212 108 216 122 204 C 102 220 82 222 64 236 Z"/>
+    <path d="M64 228 C 46 205 30 200 20 184 C 40 198 56 206 66 226 Z"/>
+    <path d="M64 228 C 82 203 100 198 112 182 C 92 198 76 206 64 226 Z"/>
+    <path d="M64 224 C 64 198 60 184 58 166 C 66 184 68 202 68 224 Z"/>
+  </g>
+
+  <!-- hotel towers -->
+  <g>
+    <!-- tower 1 -->
+    <rect x="180" y="120" width="90" height="150" fill="#0f2d52"/>
+    <!-- tower 2 (tallest, main) -->
+    <rect x="300" y="60" width="130" height="210" fill="#123863"/>
+    <!-- tower 3 -->
+    <rect x="460" y="140" width="80" height="130" fill="#0f2d52"/>
+    <!-- low wing -->
+    <rect x="540" y="200" width="220" height="70" fill="#0d2748"/>
+    <!-- tower 4 -->
+    <rect x="800" y="100" width="100" height="170" fill="#123863"/>
+    <!-- tower 5 -->
+    <rect x="920" y="150" width="70" height="120" fill="#0f2d52"/>
+  </g>
+
+  <!-- windows (lit) -->
+  <g fill="#ffd76a" opacity="0.9">
+    <!-- tower 1 windows -->
+    <g id="w1">
+      <rect x="192" y="135" width="10" height="14"/>
+      <rect x="214" y="135" width="10" height="14"/>
+      <rect x="236" y="135" width="10" height="14"/>
+      <rect x="258" y="135" width="10" height="14"/>
+      <rect x="192" y="160" width="10" height="14"/>
+      <rect x="236" y="160" width="10" height="14"/>
+      <rect x="258" y="160" width="10" height="14"/>
+      <rect x="214" y="185" width="10" height="14"/>
+      <rect x="192" y="210" width="10" height="14"/>
+      <rect x="236" y="210" width="10" height="14"/>
+      <rect x="258" y="235" width="10" height="14"/>
+    </g>
+    <!-- tower 2 windows (main) -->
+    <g id="w2">
+      <rect x="315" y="78" width="12" height="16"/>
+      <rect x="340" y="78" width="12" height="16"/>
+      <rect x="365" y="78" width="12" height="16"/>
+      <rect x="390" y="78" width="12" height="16"/>
+      <rect x="410" y="78" width="12" height="16"/>
+      <rect x="315" y="106" width="12" height="16"/>
+      <rect x="365" y="106" width="12" height="16"/>
+      <rect x="390" y="106" width="12" height="16"/>
+      <rect x="340" y="134" width="12" height="16"/>
+      <rect x="410" y="134" width="12" height="16"/>
+      <rect x="315" y="162" width="12" height="16"/>
+      <rect x="365" y="162" width="12" height="16"/>
+      <rect x="390" y="190" width="12" height="16"/>
+      <rect x="340" y="218" width="12" height="16"/>
+      <rect x="315" y="246" width="12" height="16"/>
+      <rect x="410" y="218" width="12" height="16"/>
+    </g>
+    <!-- tower 3 windows -->
+    <g id="w3">
+      <rect x="472" y="155" width="10" height="14"/>
+      <rect x="494" y="155" width="10" height="14"/>
+      <rect x="516" y="155" width="10" height="14"/>
+      <rect x="472" y="180" width="10" height="14"/>
+      <rect x="516" y="180" width="10" height="14"/>
+      <rect x="494" y="205" width="10" height="14"/>
+      <rect x="472" y="230" width="10" height="14"/>
+      <rect x="516" y="230" width="10" height="14"/>
+    </g>
+    <!-- low wing windows -->
+    <g id="w4">
+      <rect x="555" y="215" width="10" height="12"/>
+      <rect x="580" y="215" width="10" height="12"/>
+      <rect x="605" y="215" width="10" height="12"/>
+      <rect x="630" y="215" width="10" height="12"/>
+      <rect x="655" y="215" width="10" height="12"/>
+      <rect x="680" y="215" width="10" height="12"/>
+      <rect x="705" y="215" width="10" height="12"/>
+      <rect x="730" y="215" width="10" height="12"/>
+      <rect x="555" y="240" width="10" height="12"/>
+      <rect x="605" y="240" width="10" height="12"/>
+      <rect x="655" y="240" width="10" height="12"/>
+      <rect x="705" y="240" width="10" height="12"/>
+    </g>
+    <!-- tower 4 windows -->
+    <g id="w5">
+      <rect x="815" y="118" width="11" height="15"/>
+      <rect x="838" y="118" width="11" height="15"/>
+      <rect x="861" y="118" width="11" height="15"/>
+      <rect x="884" y="118" width="11" height="15"/>
+      <rect x="815" y="145" width="11" height="15"/>
+      <rect x="861" y="145" width="11" height="15"/>
+      <rect x="838" y="172" width="11" height="15"/>
+      <rect x="884" y="172" width="11" height="15"/>
+      <rect x="815" y="199" width="11" height="15"/>
+      <rect x="861" y="199" width="11" height="15"/>
+      <rect x="838" y="226" width="11" height="15"/>
+      <rect x="884" y="226" width="11" height="15"/>
+      <rect x="815" y="253" width="11" height="15"/>
+    </g>
+    <!-- tower 5 windows -->
+    <g id="w6">
+      <rect x="932" y="166" width="10" height="13"/>
+      <rect x="954" y="166" width="10" height="13"/>
+      <rect x="976" y="166" width="10" height="13"/>
+      <rect x="932" y="190" width="10" height="13"/>
+      <rect x="976" y="190" width="10" height="13"/>
+      <rect x="954" y="214" width="10" height="13"/>
+      <rect x="932" y="238" width="10" height="13"/>
+      <rect x="976" y="238" width="10" height="13"/>
+    </g>
+  </g>
+
+  <!-- entrance / rooftop flag on main tower -->
+  <rect x="363" y="52" width="4" height="18" fill="#eaeaea"/>
+  <path d="M367 52 L390 60 L367 68 Z" fill="#b13030"/>
+</svg>

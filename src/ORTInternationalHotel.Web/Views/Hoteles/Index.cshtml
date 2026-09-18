@@ -1,59 +1,48 @@
 @model IEnumerable<ORTInternationalHotel.Web.Models.Hotel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Hoteles";
 }
 
-<h1>Index</h1>
+<div class="page-header">
+    <h1>Hoteles de la cadena</h1>
+    <a class="btn btn-hero" asp-action="Create">+ Nuevo hotel</a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pais)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ciudad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CantidadEstrellas)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="table-toolbar">
+    <input type="search" class="form-control" placeholder="Buscar por nombre, pais o ciudad..." data-table-search="tablaHoteles" />
+</div>
+
+<div class="table-card">
+    <table class="table table-striped table-hover align-middle" id="tablaHoteles">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                <th>@Html.DisplayNameFor(model => model.Pais)</th>
+                <th>@Html.DisplayNameFor(model => model.Ciudad)</th>
+                <th>@Html.DisplayNameFor(model => model.Direccion)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.CantidadEstrellas)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pais)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ciudad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadEstrellas)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        <tr data-row>
+            <td><strong>@Html.DisplayFor(modelItem => item.Nombre)</strong></td>
+            <td>@Html.DisplayFor(modelItem => item.Pais)</td>
+            <td>@Html.DisplayFor(modelItem => item.Ciudad)</td>
+            <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
+            <td class="text-center">@(new string('★', item.CantidadEstrellas))</td>
+            <td class="actions-cell">
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Detalle</a>
+                <a class="action-delete" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
 }
-    </tbody>
-</table>
+            <tr class="empty-row is-hidden">
+                <td colspan="6">No se encontraron hoteles con ese criterio.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
