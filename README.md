@@ -30,52 +30,7 @@ foráneas.
 
 ### 1.1 Diagrama Entidad-Relación
 
-```mermaid
-erDiagram
-    HOTEL ||--o{ HABITACION : tiene
-    HOTEL ||--o{ RESERVA : recibe
-    PASAJERO ||--o{ RESERVA : realiza
-    HABITACION ||--o{ RESERVA : reservada_en
-
-    HOTEL {
-        int Id PK
-        string Nombre
-        string Pais
-        string Ciudad
-        string Direccion
-        int CantidadEstrellas
-    }
-
-    PASAJERO {
-        int Id PK
-        string Nombre
-        string Apellido
-        string Documento
-        string Email
-        string Telefono
-        string PaisOrigen
-    }
-
-    HABITACION {
-        int Id PK
-        string Numero
-        int Tipo
-        int Capacidad
-        decimal PrecioPorNoche
-        int HotelId FK
-    }
-
-    RESERVA {
-        int Id PK
-        date FechaDesde
-        date FechaHasta
-        int Estado
-        decimal MontoTotal
-        int PasajeroId FK
-        int HotelId FK
-        int HabitacionId FK
-    }
-```
+![Diagrama entidad-relación de ORT International Hotel](docs/diagrama-er.svg)
 
 > **Convención de nombres usada en el modelo**: toda clave primaria se llama `Id`. Toda
 > clave foránea se llama `NombreDeLaEntidad` + `Id` (por ejemplo, en `Reserva`:
