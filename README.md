@@ -152,7 +152,7 @@ navegación**: no se guarda como columna en la base de datos, es una comodidad d
 que, desde código, puedan escribir `habitacion.Hotel.Nombre` y que EF Core traiga
 automáticamente el hotel relacionado (por detrás, hace el `JOIN` por ustedes).
 
-#### ¿Qué es `ICollection<Reserva>` si yo solo conozco `List<T>`?
+#### ¿Qué es `ICollection<Reserva>`?
 
 Para lo que van a usar en este curso, **piensen `ICollection<Reserva>` como si fuera un
 `List<Reserva>`**: es una lista de reservas. De hecho, en el código la inicializamos
