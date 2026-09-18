@@ -467,6 +467,65 @@ dotnet run --project src/ORTInternationalHotel.Web
 Y navegar a `https://localhost:xxxx/Reservas` (o cualquiera de los otros controllers). El
 menú de navegación del layout ya tiene links a los 4 ABMs.
 
+### Paso 11 (extra) — El buscador de las tablas: filtro en el navegador, sin controller
+
+Los listados (Hoteles, Pasajeros, Habitaciones y Reservas) tienen una caja de búsqueda arriba
+de la tabla. **No usa ningún controller ni consulta a la base de datos**: es JavaScript que
+oculta las filas que no coinciden con lo escrito, sobre la tabla que el controller ya
+entregó completa. Por eso filtra al instante y sin recargar la página.
+
+Tiene tres piezas, las mismas en las 4 vistas `Index.cshtml` (por ejemplo
+[`Views/Pasajeros/Index.cshtml`](src/ORTInternationalHotel.Web/Views/Pasajeros/Index.cshtml)):
+
+**1. Un `<input>` que indica qué tabla filtrar**, con el atributo `data-table-search` (el valor
+es el `id` de la tabla):
+
+```html
+<input type="search" class="form-control"
+       placeholder="Buscar por nombre, documento o email..."
+       data-table-search="tablaPasajeros" />
+```
+
+**2. La tabla con ese `id`, y cada fila marcada con `data-row`** (para que el script sepa
+cuáles filas puede ocultar). Al final hay una fila oculta con el mensaje "No se encontraron...":
+
+```html
+<table id="tablaPasajeros" class="table ...">
+    ...
+    @foreach (var item in Model) {
+        <tr data-row> ... </tr>
+    }
+    <tr class="empty-row is-hidden"><td colspan="7">No se encontraron pasajeros.</td></tr>
+</table>
+```
+
+**3. El script**, en [`wwwroot/js/site.js`](src/ORTInternationalHotel.Web/wwwroot/js/site.js) (se
+carga en todas las páginas desde `_Layout.cshtml`). Es un solo script genérico: sirve para
+cualquier tabla que siga el patrón anterior. Cada vez que se escribe en la caja (evento `input`):
+
+1. Toma el texto escrito y lo normaliza (minúsculas y sin acentos, así "fernandez" encuentra
+   "Fernández").
+2. Recorre las filas `tr[data-row]` de esa tabla y, si el texto de la fila contiene lo escrito,
+   la deja visible; si no, le agrega la clase `is-hidden` (que en `site.css` es
+   `display: none`).
+3. Si no quedó ninguna fila visible, muestra la fila `empty-row`.
+
+Fragmento central de `site.js`:
+
+```javascript
+filas.forEach(function (fila) {
+    var texto = normalizar(fila.textContent || "");
+    var coincide = termino === "" || texto.indexOf(termino) !== -1;
+    fila.classList.toggle("is-hidden", !coincide);
+});
+```
+
+> **Limitación para comentar en clase**: como filtra en el navegador, solo busca entre las
+> filas que **ya se cargaron**. Con miles de pasajeros habría que hacer la búsqueda en el
+> servidor: el formulario enviaría el texto al `Index` del controller (por ejemplo
+> `Index(string buscar)`) y este filtraría con LINQ (`_context.Pasajeros.Where(...)`) antes de
+> devolver la vista. Es un buen ejercicio para los alumnos.
+
 ### Resumen del orden Model First
 
 ```
