@@ -321,6 +321,37 @@ inteligente para detectar las propiedades FK (`HotelId`, `PasajeroId`, `Habitaci
 arma automáticamente `<select>` (dropdowns) en las vistas `Create`/`Edit`, poblados con
 `ViewBag.HotelId = new SelectList(_context.Hoteles, "Id", "Nombre")`, etc.
 
+#### Ajuste manual necesario: los `enum` salen con el combo vacío
+
+Con las propiedades de tipo `enum` (en este proyecto `Reserva.Estado` y `Habitacion.Tipo`)
+el generador **no completa las opciones**. En las vistas `Create.cshtml` y `Edit.cshtml`
+deja un `<select>` sin contenido:
+
+```html
+<select asp-for="Estado" class="form-control"></select>
+```
+
+El resultado es un combo vacío: no se puede elegir ni editar el valor. Se soluciona
+agregando `asp-items` con `Html.GetEnumSelectList<T>()`, que arma las opciones a partir de
+los valores del `enum`:
+
+```html
+<select asp-for="Estado" class="form-control"
+        asp-items="Html.GetEnumSelectList<EstadoReserva>()"></select>
+```
+
+Hay que hacerlo en `Create.cshtml` **y** en `Edit.cshtml` de cada entidad que tenga un
+`enum`:
+
+| Vista | Cambio |
+|---|---|
+| `Views/Reservas/Create.cshtml` y `Edit.cshtml` | `asp-items="Html.GetEnumSelectList<EstadoReserva>()"` |
+| `Views/Habitaciones/Create.cshtml` y `Edit.cshtml` | `asp-items="Html.GetEnumSelectList<TipoHabitacion>()"` |
+
+En `Edit`, el valor guardado queda seleccionado automáticamente. Las vistas `Index`,
+`Details` y `Delete` no necesitan cambios, porque muestran el nombre del `enum` sin
+problemas.
+
 ### Paso 10 — Correr la aplicación
 
 ```bash
