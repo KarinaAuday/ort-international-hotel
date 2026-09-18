@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ORTInternationalHotel.Web",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/ORTInternationalHotel.Web/ORTInternationalHotel.Web.csproj", "--urls", "http://localhost:5080"],
+      "port": 5080
+    }
+  ]
+}
