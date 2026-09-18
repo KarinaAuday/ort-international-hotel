@@ -32,10 +32,10 @@ foráneas.
 
 ```mermaid
 erDiagram
-    HOTEL ||--o{ HABITACION : "tiene"
-    HOTEL ||--o{ RESERVA : "recibe"
-    PASAJERO ||--o{ RESERVA : "realiza"
-    HABITACION ||--o{ RESERVA : "se reserva en"
+    HOTEL ||--o{ HABITACION : tiene
+    HOTEL ||--o{ RESERVA : recibe
+    PASAJERO ||--o{ RESERVA : realiza
+    HABITACION ||--o{ RESERVA : reservada_en
 
     HOTEL {
         int Id PK
