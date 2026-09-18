@@ -62,7 +62,8 @@ MVC-Ejemplo/
         │   ├── Habitacion.cs
         │   ├── Reserva.cs
         │   ├── TipoHabitacion.cs      (enum)
-        │   └── EstadoReserva.cs       (enum)
+        │   ├── EstadoReserva.cs       (enum)
+        │   └── FechaPosteriorAAttribute.cs   (validación propia, ver Paso 4b)
         ├── Data/
         │   └── ORTInternationalHotelContext.cs   (DbContext + datos semilla)
         ├── Migrations/                            (generadas por EF Core)
@@ -200,6 +201,85 @@ public class Habitacion
 
 Repitan este análisis para `Hotel`, `Pasajero` y `Reserva` (la entidad `Reserva` va a tener
 **tres** propiedades FK: `HotelId`, `PasajeroId`, `HabitacionId`).
+
+### Paso 4b — Validaciones con Data Annotations (servidor y navegador)
+
+Los atributos entre corchetes que van arriba de cada propiedad (`[Required]`, `[StringLength]`,
+`[Range]`, etc.) se llaman **Data Annotations**. Con una sola declaración en el modelo se
+consiguen **tres cosas**:
+
+1. **Validación en el servidor**: el controller la aplica al recibir el formulario. Si algo
+   no cumple, `ModelState.IsValid` es `false` y el `Create`/`Edit` vuelve a mostrar el
+   formulario con los errores en vez de guardar.
+2. **Validación en el navegador (frontend)**: los tag helpers de las vistas
+   (`<input asp-for="Nombre" />` y `<span asp-validation-for="Nombre">`) leen las anotaciones
+   y generan atributos HTML `data-val-*`. Los scripts **jQuery Validation** y **jQuery
+   Validation Unobtrusive** (los que carga `Views/Shared/_ValidationScriptsPartial.cshtml`
+   dentro de `@section Scripts`) leen esos atributos y muestran el error **sin recargar la
+   página**. Si falta ese partial en una vista, el formulario sigue validando, pero solo en
+   el servidor.
+3. **Estructura de la base de datos**: algunas anotaciones también las usa EF Core al crear la
+   migración (`[StringLength(100)]` → columna `nvarchar(100)`, `[Required]` → columna
+   `NOT NULL`, `[Column(TypeName = "decimal(10,2)")]` → precisión del decimal).
+
+Por ejemplo, esta propiedad de `Pasajero`:
+
+```csharp
+[Required(ErrorMessage = "El email es obligatorio.")]
+[EmailAddress(ErrorMessage = "El formato de email no es válido.")]
+[StringLength(120)]
+public string Email { get; set; } = string.Empty;
+```
+
+se renderiza en el HTML así (se puede ver con "Inspeccionar" en el navegador):
+
+```html
+<input type="email" name="Email" data-val="true"
+       data-val-required="El email es obligatorio."
+       data-val-email="El formato de email no es válido."
+       data-val-length-max="120" />
+```
+
+Anotaciones usadas en este proyecto:
+
+| Anotación | Qué valida | Dónde se usa |
+|---|---|---|
+| `[Required]` | El campo no puede quedar vacío | Nombre, Apellido, Email, fechas, etc. |
+| `[StringLength(n)]` | Largo máximo de texto | Nombre, Documento, Email, etc. |
+| `[Range(min, max)]` | Valor numérico dentro de un rango | `CantidadEstrellas`, `Capacidad`, `PrecioPorNoche` |
+| `[EmailAddress]` | Formato de email | `Pasajero.Email` |
+| `[Phone]` | Formato de teléfono | `Pasajero.Telefono` |
+| `[Display(Name = "...")]` | Texto de la etiqueta en el formulario (no valida) | Todas las propiedades con nombre "lindo" |
+| `[FechaPosteriorA(...)]` | Validación propia (ver más abajo) | `Reserva.FechaHasta` |
+
+> **Importante**: la validación del navegador es una comodidad para el usuario, pero **no
+> es segura**: cualquiera puede desactivar JavaScript o enviar el formulario a mano. Por eso
+> el servidor **siempre** vuelve a validar. Nunca se debe confiar solo en el frontend.
+
+#### Validación propia: la fecha de egreso debe ser al menos un día posterior al ingreso
+
+Las anotaciones de .NET no traen una para "esta fecha debe ser posterior a esa otra", así que
+se crea una propia heredando de `ValidationAttribute`
+([`Models/FechaPosteriorAAttribute.cs`](src/ORTInternationalHotel.Web/Models/FechaPosteriorAAttribute.cs)) y se usa como cualquier otra:
+
+```csharp
+[FechaPosteriorA(nameof(FechaDesde), MinimoDias = 1,
+    ErrorMessage = "La fecha de egreso debe ser al menos un día posterior a la de ingreso.")]
+public DateTime FechaHasta { get; set; }
+```
+
+La clase tiene dos partes:
+
+- **`IsValid(...)`**: la validación del **servidor**. Compara `FechaHasta` con `FechaDesde` y
+  falla si la diferencia es menor a `MinimoDias`.
+- **`AddValidation(...)`** (interfaz `IClientModelValidator`): agrega al HTML los atributos
+  `data-val-fechaposteriora-*`. Como esta regla es nueva, jQuery Validation no la conoce, así
+  que hace falta un pequeño script que la enseñe:
+  [`wwwroot/js/validaciones.js`](src/ORTInternationalHotel.Web/wwwroot/js/validaciones.js)
+  (se carga desde `_ValidationScriptsPartial.cshtml`).
+
+Con eso, al elegir fechas iguales o invertidas, el error aparece al instante debajo del campo,
+y aunque se saltee el JavaScript el servidor lo rechaza igual.
 
 ### Paso 5 — Crear el `DbContext`
 

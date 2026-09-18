@@ -15,6 +15,8 @@ namespace ORTInternationalHotel.Web.Models
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de egreso")]
+        [FechaPosteriorA(nameof(FechaDesde), MinimoDias = 1,
+            ErrorMessage = "La fecha de egreso debe ser al menos un día posterior a la de ingreso.")]
         public DateTime FechaHasta { get; set; }
 
         [Required]

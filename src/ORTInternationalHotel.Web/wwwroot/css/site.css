@@ -256,13 +256,12 @@ body {
   color: var(--ort-blue-dark);
 }
 
-.actions-cell a {
-  margin-right: 0.5rem;
-  font-size: 0.85rem;
+.actions-cell {
+  white-space: nowrap;
 }
 
-.actions-cell a.action-delete {
-  color: var(--ort-red);
+.btn + .btn {
+  margin-left: 0.5rem;
 }
 
 .empty-row td {
