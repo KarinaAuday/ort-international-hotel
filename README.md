@@ -352,6 +352,32 @@ En `Edit`, el valor guardado queda seleccionado automáticamente. Las vistas `In
 `Details` y `Delete` no necesitan cambios, porque muestran el nombre del `enum` sin
 problemas.
 
+#### Ajuste manual necesario: los campos `decimal` fallan con la coma decimal
+
+Si Windows está configurado en español (Argentina), el servidor muestra los decimales con
+**coma** (`600,00`), pero la validación del navegador (jQuery Validation) solo acepta
+**punto**. Resultado: al editar una reserva aparece un error en el campo `MontoTotal`, y solo
+se puede guardar si se borra la coma y los decimales (`600`).
+
+La solución es fijar una cultura única para toda la aplicación en `Program.cs`, así el
+servidor y el navegador coinciden en cualquier computadora:
+
+```csharp
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+
+// ...después de var app = builder.Build();
+var cultura = new CultureInfo("en-US");
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(cultura),
+    SupportedCultures = new[] { cultura },
+    SupportedUICultures = new[] { cultura }
+});
+```
+
+Con esto los decimales se escriben con punto (`600.00`) en `MontoTotal` y `PrecioPorNoche`.
+
 ### Paso 10 — Correr la aplicación
 
 ```bash
