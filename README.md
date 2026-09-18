@@ -134,10 +134,47 @@ Regla práctica para pasar del diagrama al código:
 1. Cada entidad del diagrama → una clase en `Models/`.
 2. Cada atributo → una propiedad pública.
 3. Cada relación "muchos a uno" (ej: "una Reserva tiene un Hotel") → en el lado "muchos"
-   (Reserva) se agrega una propiedad `int HotelId` (la FK) y una propiedad de navegación
-   `Hotel? Hotel`.
-4. En el lado "uno" (Hotel) se agrega una colección de navegación:
+   (Reserva) se agrega una **propiedad relacional** `int HotelId` y una propiedad de
+   navegación `Hotel? Hotel`.
+4. En el lado "uno" (Hotel) se agrega una **colección de navegación**:
    `ICollection<Reserva> Reservas`.
+
+#### ¿Qué es la "propiedad relacional" (`HotelId`)?
+
+Es el campo que en la base de datos se va a convertir en la **Foreign Key (FK)**: un número
+entero que guarda el `Id` del hotel al que pertenece esa habitación o esa reserva. Por
+ejemplo, si `Habitacion.HotelId = 1`, esa habitación es del hotel cuyo `Id` es 1
+(Buenos Aires). Es exactamente lo mismo que en SQL sería una columna `HotelId INT` con una
+restricción `FOREIGN KEY` apuntando a la tabla `Hoteles`.
+
+La propiedad `Hotel? Hotel` (con mayúscula, sin `Id`) que va al lado es la **propiedad de
+navegación**: no se guarda como columna en la base de datos, es una comodidad de C# para
+que, desde código, puedan escribir `habitacion.Hotel.Nombre` y que EF Core traiga
+automáticamente el hotel relacionado (por detrás, hace el `JOIN` por ustedes).
+
+#### ¿Qué es `ICollection<Reserva>` si yo solo conozco `List<T>`?
+
+Para lo que van a usar en este curso, **piensen `ICollection<Reserva>` como si fuera un
+`List<Reserva>`**: es una lista de reservas. De hecho, en el código la inicializamos
+literalmente con una lista: `new List<Reserva>()`.
+
+La diferencia es que `ICollection<T>` es una **interfaz** (un "contrato" más genérico que
+`List<T>`) que dice "esto es una colección a la que puedo agregar y quitar elementos y
+recorrer con `foreach`", sin comprometerse a qué tipo de colección es exactamente por
+dentro (podría ser una `List<T>`, un `HashSet<T>`, etc.). Entity Framework Core pide que
+las colecciones de navegación se declaren con `ICollection<T>` (o similares) en vez de
+`List<T>` porque así, cuando ustedes escriben `hotel.Habitaciones`, es EF quien decide
+internamente cómo traer y gestionar esa lista de la base de datos — pero para todo lo que
+hacen en clase (recorrerla con `foreach`, contarla con `.Count`, etc.) se comporta igual
+que cualquier lista que ya conocen.
+
+En resumen:
+
+| Se ve en el modelo | Qué es | ¿Existe como columna en la BD? |
+|---|---|---|
+| `int HotelId` | Propiedad relacional / futura FK | Sí — es la columna con la clave foránea |
+| `Hotel? Hotel` | Propiedad de navegación (1 solo objeto relacionado) | No — la arma EF Core al consultar |
+| `ICollection<Reserva> Reservas` | Colección de navegación (lista de objetos relacionados) | No — la arma EF Core al consultar |
 
 ### Paso 4 — Crear las clases de modelo
 
